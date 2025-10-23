@@ -23,20 +23,28 @@
         const map = L.map('map').setView([userLocation.lat, userLocation.lon], 13);
         
         // Add OpenStreetMap tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		let tileUrl = null;
+		switch(data.tiles) {
+			case "no_label":
+				tileUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+				break;
+			default:
+				break;
+		}
+        L.tileLayer(tileUrl, {
             maxZoom: 19,
         }).addTo(map);
 
         // Define icons
         const userIcon = L.icon({
-            // iconUrl: '/static/img/User.PNG',
-			iconUrl: `https://img.icons8.com/?size=100&id=OZZ2pTwn45ie&format=png&color=000000`,
+            iconUrl: '/static/img/User.PNG',
+			// iconUrl: `https://img.icons8.com/?size=100&id=OZZ2pTwn45ie&format=png&color=000000`,
             iconSize: [32, 32],
         });
 
         const checkpointIcon = L.icon({
-            // iconUrl: '/static/img/Checkpoint.PNG',
-			iconUrl: `https://img.icons8.com/?size=100&id=LsLmF7WQgtms&format=png&color=000000`,
+            iconUrl: '/static/img/Checkpoint.PNG',
+			// iconUrl: `https://img.icons8.com/?size=100&id=LsLmF7WQgtms&format=png&color=000000`,
             iconSize: [32, 32],
         });
 
