@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Parse URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const data = JSON.parse(decodeURIComponent(params.get('data')));
+
+        // Set up the map
+        const userLocation = data.geoinfo[0].USER;
+        const map = L.map('map').setView([userLocation.lat, userLocation.lon], 13);
+        
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Define icons
+        const userIcon = L.icon({
+            // iconUrl: '/static/img/User.PNG',
+			iconUrl: `https://img.icons8.com/?size=100&id=OZZ2pTwn45ie&format=png&color=000000`,
+            iconSize: [32, 32],
+        });
+
+        const checkpointIcon = L.icon({
+            // iconUrl: '/static/img/Checkpoint.PNG',
+			iconUrl: `https://img.icons8.com/?size=100&id=LsLmF7WQgtms&format=png&color=000000`,
+            iconSize: [32, 32],
+        });
+
+        // Add User marker
+        L.marker([userLocation.lat, userLocation.lon], { icon: userIcon }).addTo(map)
+            .bindPopup('User Location')
+            .openPopup();
+
+        // Add Checkpoint markers if they exist
+        data.geoinfo.forEach(location => {
+            if (location.CHECKPOINT) {
+                const checkpointLocation = location.CHECKPOINT;
+                L.marker([checkpointLocation.lat, checkpointLocation.lon], { icon: checkpointIcon }).addTo(map)
+                    .bindPopup('Checkpoint Location');
+            }
+        });
+    </script>
+</body>
+</html>
