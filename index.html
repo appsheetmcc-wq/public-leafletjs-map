@@ -49,16 +49,13 @@
         });
 
         // Add User marker
-        L.marker([userLocation.lat, userLocation.lon], { icon: userIcon }).addTo(map)
-            .bindPopup('User Location')
-            .openPopup();
+        L.marker([userLocation.lat, userLocation.lon], { icon: userIcon }).addTo(map);
 
         // Add Checkpoint markers if they exist
         data.geoinfo.forEach(location => {
             if (location.CHECKPOINT) {
                 const checkpointLocation = location.CHECKPOINT;
-                L.marker([checkpointLocation.lat, checkpointLocation.lon], { icon: checkpointIcon }).addTo(map)
-                    .bindPopup('Checkpoint Location');
+                L.marker([checkpointLocation.lat, checkpointLocation.lon], { icon: checkpointIcon }).addTo(map);
             }
         });
     </script>
